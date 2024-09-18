@@ -1,0 +1,31 @@
+version: '3'
+services:
+  app:
+    build: .
+    ports:
+      - "3500:3500"
+    depends_on:
+      - redis
+      - mongo
+  
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  mongo:
+    image: "mongo"
+    ports:
+      - "27017:27017"
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
